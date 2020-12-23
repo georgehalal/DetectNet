@@ -2,7 +2,7 @@
 We develop a deep learning model for modeling the transfer function of galaxy detection in wide-field surveys.
 
 ## Dataset
-* Our training dataset consists of ∼2 million galaxies.
+* Our training dataset consists of ∼20 million galaxies.
 * We use 10,000 galaxies for validation.
 * We use 10,000 galaxies for testing.
 
