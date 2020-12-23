@@ -20,4 +20,4 @@ pip install -r requirements.txt
 * `tests/detectz1/params.json` - an example directory with a JSON file containing the model and training hyperparameters. Similar directories can be created there containing different hyperparameters. These directories also store the logging info and plots corresponding to the given set of hyperparameters.
 * `train_and_evaluate.py` and `train_and_evaluate_withz.py` - train the model on the training dataset, evaluating it along the way on the validation dataset (without and with a random standard normal variable input, respectively).
 * `test.py` and `test_withz.py` - run the trained model on the testing dataset, calculate the accuracy of the result, and plot a ROC curve (for the model without and with a random standard normal variable input, respectively).
-* `utils.py` - contains functions for handling hyperparameters, logging information, and storing model states
+* `utils.py` - contains functions for handling hyperparameters, logging information, and storing model states.
