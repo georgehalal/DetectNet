@@ -1,7 +1,7 @@
 # DetectNet
 We developed a deep learning model for modeling the transfer function of galaxy detection in wide-field surveys.
 
-Each location in the sky is surveyed several times by telescopes producing a stack of images of the same location. Different statistics are developed to characterize these observations as a function of position in the sky. We have sky maps of these statistics, including the fluctuation of sky brightness and the blurriness of point-like sources at each point for different passbands (filters). The passbands we consider are g, r, i, and z, from bluer to redder. For each passband and location in the sky, we use two of these observing conditions from the sky maps and the true galaxy magnitude, a measure of brightness, from deep-field surveys as the input to our network.
+Each location in the sky is surveyed several times by telescopes producing a stack of images of the same location. Different statistics are developed to characterize these observations as a function of position in the sky. We have sky maps of these statistics, including the fluctuation of sky brightness and the blurriness of point-like sources at each point for different passbands (filters). The passbands we consider are g, r, i, and z, from bluer to redder. For each passband and location in the sky, we use two of these observing conditions from the sky maps and the true galaxy magnitude, a measure of brightness, from deep-field surveys as the input to our network. Our model predicts the probability that a given galaxy would be detected by the Dark Energy Survey (DES).
 
 ## Dataset
 * Our training dataset consists of ∼20 million galaxies.
