@@ -20,7 +20,8 @@ class DetectionNet(nn.Module):
         self.true = nn.Sequential(nn.Linear(4, params.num_nodes), nn.ReLU(True),
             nn.Linear(params.num_nodes, params.num_nodes//2), nn.ReLU(True))
 
-        self.out = nn.Sequential(nn.Linear(params.num_nodes, params.num_nodes), nn.ReLU(True),
+        self.out = nn.Sequential(nn.Linear(params.num_nodes, params.num_nodes),
+            nn.ReLU(True),
             nn.Dropout(params.dropout_rate),
             nn.Linear(params.num_nodes, params.num_nodes), nn.ReLU(True),
             nn.Linear(params.num_nodes, 1))
