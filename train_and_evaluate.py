@@ -20,8 +20,10 @@ from model.dataloader_det import DetectionDataset as DD
 
 plt.rcParams.update({'font.size': 15, 'figure.figsize': (10, 6)})
 parser = argparse.ArgumentParser()
-parser.add_argument('--test_dir', default='tests/detect2', help="Directory containing params.json")
-parser.add_argument('--restore_file', default=None, help="Optional, name of the file in --test_dir containing weights to reload before training")
+parser.add_argument('--test_dir', default='tests/detect2', \
+                    help="Directory containing params.json")
+parser.add_argument('--restore_file', default=None, help="Optional, name of \
+                    the file in --test_dir containing weights to reload before training")
 
 
 def train_step(model, optimizer, loss_fn, conditions, true, out):
@@ -67,12 +69,17 @@ def train(model, optimizer, dataloader, loss_fn, acc, params):
     with tqdm(total=len(dataloader)) as t:
         for i, (conditions_batch, true_batch, out_batch) in enumerate(dataloader):
             
-            conditions_batch, true_batch, out_batch = Variable(conditions_batch), Variable(true_batch), Variable(out_batch)
+            conditions_batch, true_batch, out_batch = Variable(conditions_batch), \
+                                                      Variable(true_batch), \
+                                                      Variable(out_batch)
             
             if params.cuda:
-                conditions_batch, true_batch, out_batch = conditions_batch.cuda(non_blocking=True), true_batch.cuda(non_blocking=True), out_batch.cuda(non_blocking=True)
+                conditions_batch, true_batch, out_batch = conditions_batch.cuda(non_blocking=True), \
+                                                          true_batch.cuda(non_blocking=True), \
+                                                          out_batch.cuda(non_blocking=True)
 
-            loss, predout = train_step(model, optimizer, loss_fn, conditions_batch, true_batch, out_batch)
+            loss, predout = train_step(model, optimizer, loss_fn, conditions_batch, \
+                                       true_batch, out_batch)
             
             if i % params.save_summary_steps == 0:
                 out_batch = out_batch.data.cpu().numpy()
@@ -112,7 +119,8 @@ def evaluate(model, dataloader, loss_fn, acc, params):
         conditions_batch, truth_batch = Variable(conditions_batch), Variable(truth_batch)
 
         if params.cuda:
-            conditions_batch, truth_batch, out_batch = conditions_batch.cuda(non_blocking=True), truth_batch.cuda(non_blocking=True), out_batch.cuda(non_blocking=True)
+            conditions_batch, truth_batch, out_batch = conditions_batch.cuda(non_blocking=True), \
+                    truth_batch.cuda(non_blocking=True), out_batch.cuda(non_blocking=True)
 
         predout_batch = model(conditions_batch, truth_batch).squeeze()
         loss = loss_fn(predout_batch, out_batch).item()
@@ -147,7 +155,8 @@ def make_plot(p, name, y, test_dir):
     plt.savefig(os.path.join(test_dir, name+'.png'))
 
 
-def train_and_evaluate(model, train_dl, val_dl, optimizer, loss_fn, acc, params, test_dir, restore_file=None):
+def train_and_evaluate(model, train_dl, val_dl, optimizer, loss_fn, acc, \
+                       params, test_dir, restore_file=None):
     """Train the model, evaluate the metrics, and save some plots.
 
     Args:
@@ -188,7 +197,9 @@ def train_and_evaluate(model, train_dl, val_dl, optimizer, loss_fn, acc, params,
             val_acc = val_metrics['accuracy']
             is_best = val_acc >= best_acc
 
-            utils.save_checkpoint({'epoch': epoch + 1, 'state_dict': model.state_dict(), 'optim_dict': optimizer.state_dict()}, is_best=is_best, checkpoint=test_dir)
+            utils.save_checkpoint({'epoch': epoch + 1, 'state_dict': model.state_dict(), \
+                                   'optim_dict': optimizer.state_dict()}, is_best=is_best, \
+                                  checkpoint=test_dir)
 
             if is_best:
                 logging.info("- Found new best validation metric")
@@ -223,8 +234,10 @@ if __name__ == '__main__':
 
     logging.info("Loading the datasets...")
 
-    train_dl = DataLoader(DD("train"), batch_size=params.batch_size, shuffle=True, num_workers=params.num_workers, pin_memory=params.cuda)
-    val_dl = DataLoader(DD("val"), batch_size=params.batch_size, shuffle=True, num_workers=params.num_workers, pin_memory=params.cuda)
+    train_dl = DataLoader(DD("train"), batch_size=params.batch_size, shuffle=True, \
+                          num_workers=params.num_workers, pin_memory=params.cuda)
+    val_dl = DataLoader(DD("val"), batch_size=params.batch_size, shuffle=True, \
+                        num_workers=params.num_workers, pin_memory=params.cuda)
     
     logging.info("- done.")
 
@@ -238,6 +251,7 @@ if __name__ == '__main__':
     acc = net.accuracy
 
     logging.info("Starting training for {} epoch(s)".format(params.num_epochs))
-    train_and_evaluate(model, train_dl, val_dl, optimizer, loss_fn, acc, params, args.test_dir, args.restore_file)
+    train_and_evaluate(model, train_dl, val_dl, optimizer, loss_fn, acc, params, \
+                       args.test_dir, args.restore_file)
 
 
