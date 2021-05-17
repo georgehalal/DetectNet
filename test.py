@@ -16,9 +16,12 @@ import model.detnet as net
 
 plt.rcParams.update({'font.size': 15, 'figure.figsize': (10, 6)})
 parser = argparse.ArgumentParser()
-parser.add_argument('--data_dir', default='data/preprocessed_binary/test', help="Directory containing test dataset")
-parser.add_argument('--test_dir', default='tests/detect2', help="Directory containing params.json")
-parser.add_argument('--restore_file', default='best', help="name of the file in --test_dir containing weights to load")
+parser.add_argument('--data_dir', default='data/preprocessed_binary/test', \
+                    help="Directory containing test dataset")
+parser.add_argument('--test_dir', default='tests/detect2', \
+                    help="Directory containing params.json")
+parser.add_argument('--restore_file', default='best', \
+                    help="name of the file in --test_dir containing weights to load")
 
 
 def evaluate(model, true, cond, out, loss_fn, acc, test_dir):
@@ -78,14 +81,16 @@ def evaluate(model, true, cond, out, loss_fn, acc, test_dir):
     plt.colorbar()
     plt.savefig(os.path.join(test_dir,'ri_iz_t.png'))
 
-    logging.info("- Test metrics : loss = {}; accuracy = {}; roc_auc = {}".format(loss, accuracy, roc_auc))
+    logging.info("- Test metrics : loss = {}; accuracy = {}; \
+                roc_auc = {}".format(loss, accuracy, roc_auc))
     return
 
 
 if __name__ == '__main__':
     args = parser.parse_args()
     json_path = os.path.join(args.test_dir, 'params.json')
-    assert os.path.isfile(json_path), "No json configuration file found at {}".format(json_path)
+    assert os.path.isfile(json_path), "No json configuration \
+                            file found at {}".format(json_path)
     params = utils.Params(json_path)
 
     params.cuda = torch.cuda.is_available()
