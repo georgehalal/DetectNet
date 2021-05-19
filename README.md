@@ -26,3 +26,4 @@ pip install -r requirements.txt
 
 ## Performance
 ![roc](https://github.com/georgehalal/DetectNet/blob/main/img/roc_curve.png)
+
