@@ -156,7 +156,7 @@ def split_and_normalize(df: pd.DataFrame, output_dir: str) -> dict:
     return {"test": test_df, "train": train_df, "val": val_df}
 
 
-def preprocess(args):
+def preprocess(args) -> None:
     """Prepare the data to be fed into the neural network"""
 
     print("Loading detection catalog...")
@@ -212,6 +212,8 @@ def preprocess(args):
         torch.save(true, os.path.join(saveloc, "true.pth"))
         torch.save(cond, os.path.join(saveloc, "cond.pth"))
         torch.save(out, os.path.join(saveloc, "out.pth"))
+
+    return None
 
 
 if __name__ == "__main__":
