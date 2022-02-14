@@ -64,7 +64,6 @@ def train_step(model: net.DetectionNet, optimizer: optim.Adam,
         (tuple[float, torch.tensor]): a tuple of the loss after a
             training step and outp
     """
-
     optimizer.zero_grad()
     conditions.requires_grad_(True)
     true.requires_grad_(True)
@@ -97,7 +96,6 @@ def train(model: net.DetectionNet, optimizer: optim.Adam,
     Returns:
         (dict): a dictionary of the mean of different training metrics
     """
-
     model.train()
     
     summ = []
@@ -160,7 +158,6 @@ def evaluate(model: net.DetectionNet, dataloader: DataLoader,
     Returns:
         (dict): a dictionary of the mean of different evaluation metrics
     """
-
     model.eval()
 
     summ = []
@@ -203,12 +200,11 @@ def make_plot(p: list[float], name: str, y: str, test_dir: str) -> None:
         y (str): y-axis label name
         test_dir (str): the directory to save the plots to
     """
-
     plt.figure()
     plt.plot(p)
     plt.xlabel("Epochs")
     plt.ylabel(y)
-    plt.savefig(os.path.join(test_dir, name+".png"))
+    plt.savefig(os.path.join(test_dir, name + ".png"))
 
     return None
 
@@ -236,7 +232,6 @@ def train_and_evaluate(model: net.DetectionNet, train_dl: DataLoader,
         restore_file (Optional[str]): file containing model parameters
             to load and continue training
     """
-
     if restore_file is not None:
         restore_path = os.path.join(test_dir, restore_file + ".pth.tar")
         logging.info("Restoring parameters from {restore_path}")

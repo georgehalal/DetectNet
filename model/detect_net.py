@@ -19,23 +19,28 @@ import torch.nn.functional as F
 
 
 class DetectionNet(nn.Module):
+    """Model for the detection probability of galaxy detection in wide-field
+    surveys.
+    """
+
     def __init__(self, params: dict) -> None:
         """Define the building blocks of the model
         
         Args:
             params (dict): model hyperparameters
         """
-
         super(DetectionNet, self).__init__()
 
-        self.cond = nn.Sequential(nn.Linear(6, params.num_nodes), nn.ReLU(True),
+        self.cond = nn.Sequential(
+            nn.Linear(6, params.num_nodes), nn.ReLU(True),
             nn.Linear(params.num_nodes, params.num_nodes//2), nn.ReLU(True))
 
-        self.true = nn.Sequential(nn.Linear(4, params.num_nodes), nn.ReLU(True),
+        self.true = nn.Sequential(
+            nn.Linear(4, params.num_nodes), nn.ReLU(True),
             nn.Linear(params.num_nodes, params.num_nodes//2), nn.ReLU(True))
 
-        self.out = nn.Sequential(nn.Linear(params.num_nodes, params.num_nodes),
-            nn.ReLU(True),
+        self.out = nn.Sequential(
+            nn.Linear(params.num_nodes, params.num_nodes), nn.ReLU(True),
             nn.Dropout(params.dropout_rate),
             nn.Linear(params.num_nodes, params.num_nodes), nn.ReLU(True),
             nn.Linear(params.num_nodes, 1))
@@ -48,9 +53,8 @@ class DetectionNet(nn.Module):
             t (torch.tensor): Ground truth magnitudes
 
         Returns:
-            x (torch.tensor): Observed magnitudes
+            x (torch.tensor): Detection probability
         """
-
         y = self.cond(y)
         t = self.true(t)
         x = torch.sigmoid(self.out(torch.cat([y, t], -1)))
@@ -68,7 +72,6 @@ def loss_fn(out: torch.tensor, truth: torch.tensor) -> torch.tensor:
     Returns:
         (torch.tensor): binary cross-entropy loss
     """
-
     loss = nn.BCELoss()
     return loss(out, truth)
 
@@ -83,5 +86,4 @@ def accuracy(out: torch.tensor, truth: torch.tensor) -> float:
     Returns:
         (float): accuracy
     """
-
     return np.sum(out == truth) / float(truth.size)

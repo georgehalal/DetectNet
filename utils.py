@@ -11,6 +11,7 @@ import json
 import logging
 import os
 import shutil
+from typing import Optional
 
 import torch
        
@@ -21,18 +22,17 @@ def set_logger(log_path: str) -> None:
     Args:
         log_path (str): where to save the log file
     """
-    
     logger = logging.getLogger()
     logger.setLevel(logging.INFO)
 
     if not logger.handlers:
         file_handler = logging.FileHandler(log_path)
         file_handler.setFormatter(logging.Formatter(
-            '%(asctime)s:%(levelname)s: %(message)s'))
+            "%(asctime)s:%(levelname)s: %(message)s"))
         logger.addHandler(file_handler)
 
         stream_handler = logging.StreamHandler()
-        stream_handler.setFormatter(logging.Formatter('%(message)s'))
+        stream_handler.setFormatter(logging.Formatter("%(message)s"))
         logger.addHandler(stream_handler)
 
 
@@ -43,8 +43,7 @@ def save_dict_to_json(d: dict, json_path: str) -> None:
         d (dict): dictionary of floats
         json_path (str): where to save the json file
     """
-
-    with open(json_path, 'w') as f:
+    with open(json_path, "w") as f:
         d = {k: float(v) for k, v in d.items()}
         json.dump(d, f, indent=4)
 
@@ -61,16 +60,15 @@ def save_checkpoint(state: dict, is_best: bool, checkpoint: str,
         model (Optional[str]): string specifying whether the model is
             a generator or a discriminator
     """
-
-    if model == 'gen':
-        last = 'g_last.pth.tar'
-        best = 'g_best.pth.tar'
-    elif model == 'disc':
-        last = 'd_last.pth.tar'
-        best = 'd_best.pth.tar'
+    if model == "gen":
+        last = "g_last.pth.tar"
+        best = "g_best.pth.tar"
+    elif model == "disc":
+        last = "d_last.pth.tar"
+        best = "d_best.pth.tar"
     else:
-        last = 'last.pth.tar'
-        best = 'best.pth.tar'
+        last = "last.pth.tar"
+        best = "best.pth.tar"
     filepath = os.path.join(checkpoint, last)
     if not os.path.exists(checkpoint):
         print("Checkpoint Directory does not exist! "
@@ -94,20 +92,20 @@ def load_checkpoint(checkpoint: str, model: torch.nn.Module,
         optimizer (Optional[torch.optim.Optimizer]): optimizer at
             checkpoint
     """
-
     if not os.path.exists(checkpoint):
         raise("File doesn't exist {}".format(checkpoint))
     checkpoint = torch.load(checkpoint)
-    model.load_state_dict(checkpoint['state_dict'])
+    model.load_state_dict(checkpoint["state_dict"])
 
     if optimizer:
-        optimizer.load_state_dict(checkpoint['optim_dict'])
+        optimizer.load_state_dict(checkpoint["optim_dict"])
 
     return checkpoint
 
 
 class Params():
-    """Load hyperparameters from a json file in a dict-like structure"""
+    """Load hyperparameters from a json file in a dict-like structure
+    """
 
     def __init__(self, json_path: str):
         """Initialize the class by loading the hyperparameters from the
@@ -127,7 +125,7 @@ class Params():
             json_path (str): the path and name of the json file to save
                 the hyperparameters in.
         """
-        with open(json_path, 'w') as f:
+        with open(json_path, "w") as f:
             json.dump(self.__dict__, f, indent=4)
             
     def update(self, json_path: str):
@@ -147,10 +145,12 @@ class Params():
 
 
 class RunningAverage():
-    """Calculate the running average"""
+    """Calculate the running average
+    """
     
     def __init__(self) -> None:
-        """Initialize the number of steps and total to 0"""
+        """Initialize the number of steps and total to 0
+        """
         self.steps = 0
         self.total = 0
     

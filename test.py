@@ -17,6 +17,7 @@ __email__ = "halalgeorge@gmail.com"
 import argparse
 import logging
 import os
+from typing import Callable
 
 import numpy as np
 import torch

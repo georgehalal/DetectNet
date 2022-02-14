@@ -44,9 +44,9 @@ def cut(df: pd.DataFrame) -> pd.DataFrame:
     Returns:
         (pd.DataFrame): shuffled DataFrame of undetected galaxies. 
     """
-
     df = df[df["detected"] == 0]
     df = df.sample(frac=1).reset_index(drop=True) #shuffle
+
     return df.iloc[:2915104]
 
 
@@ -68,7 +68,6 @@ def modify_columns_and_concat(df_detect: pd.DataFrame,
     Returns:
         (pd.DataFrame): DataFrame with the columns needed for training.
     """
-
     df_undetect["pixel"] = hp.ang2pix(nside=4096,
                                       theta=df_undetect["true_dec"].apply(
                                           lambda dec: np.deg2rad(90 - dec)),
@@ -113,7 +112,6 @@ def split(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
             testing, training, and validation data splits as Pandas
             DataFrames
     """
-
     df = df.sample(frac=1).reset_index(drop=True) #shuffle
     split = 10000
     test_df = df.iloc[:split]
@@ -136,7 +134,6 @@ def split_and_normalize(df: pd.DataFrame, output_dir: str) -> dict:
         (dict): dictionary of the testing, training, and validation
             DataFrames.
     """
-
     test_df, train_df, val_df = split(df)
     train_mean = np.array(train_df.mean()[2:])
     train_std = np.array(train_df.std()[2:])
@@ -157,8 +154,8 @@ def split_and_normalize(df: pd.DataFrame, output_dir: str) -> dict:
 
 
 def preprocess(args) -> None:
-    """Prepare the data to be fed into the neural network"""
-
+    """Prepare the data to be fed into the neural network
+    """
     print("Loading detection catalog...")
     detectionfile = os.path.join(args.input_dir,
                                  "balrog_detection_catalog_sof_run2_v1.3.fits")
