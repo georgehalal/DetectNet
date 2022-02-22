@@ -17,9 +17,9 @@ __email__ = "halalgeorge@gmail.com"
 import os
 import argparse
 from functools import reduce
+import pickle as pkl
 
 import pandas as pd
-import pickle as pkl
 import healpy as hp
 import numpy as np
 import fitsio
