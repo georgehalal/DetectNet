@@ -3,7 +3,7 @@
 dataloader.py
 
 A class for loading a sample of the sky conditions,
-true galaxy magnitudes, and observed galaxy magnitudes.
+true galaxy magnitudes, and whether the galaxies were detected.
 
 Author: George Halal
 Email: halalgeorge@gmail.com
@@ -49,7 +49,8 @@ class DetectionDataset(Dataset):
 
         Returns:
             (tuple[torch.tensor, torch.tensor, torch.tensor]):
-                sky conditions, true magnitudes, and observed magnitudes
+                sky conditions, true magnitudes, and whether the
+                galaxies were detected.
         """
         return self.cond[idx], self.true[idx], self.out[idx]
 

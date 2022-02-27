@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 detect_net.py
 
@@ -33,11 +34,11 @@ class DetectionNet(nn.Module):
 
         self.cond = nn.Sequential(
             nn.Linear(6, params.num_nodes), nn.ReLU(True),
-            nn.Linear(params.num_nodes, params.num_nodes//2), nn.ReLU(True))
+            nn.Linear(params.num_nodes, params.num_nodes // 2), nn.ReLU(True))
 
         self.true = nn.Sequential(
             nn.Linear(4, params.num_nodes), nn.ReLU(True),
-            nn.Linear(params.num_nodes, params.num_nodes//2), nn.ReLU(True))
+            nn.Linear(params.num_nodes, params.num_nodes // 2), nn.ReLU(True))
 
         self.out = nn.Sequential(
             nn.Linear(params.num_nodes, params.num_nodes), nn.ReLU(True),
@@ -73,6 +74,7 @@ def loss_fn(out: torch.tensor, truth: torch.tensor) -> torch.tensor:
         (torch.tensor): binary cross-entropy loss
     """
     loss = nn.BCELoss()
+
     return loss(out, truth)
 
 
