@@ -14,10 +14,15 @@ __author__ = "George Halal"
 __email__ = "halalgeorge@gmail.com"
 
 
+import sys
+sys.path.append("../")
+
 import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+
+from utils import Params
 
 
 class DetectionNet(nn.Module):
@@ -25,11 +30,11 @@ class DetectionNet(nn.Module):
     surveys.
     """
 
-    def __init__(self, params: dict) -> None:
+    def __init__(self, params: Params) -> None:
         """Define the building blocks of the model
 
         Args:
-            params (dict): model hyperparameters
+            params (Params): model hyperparameters
         """
         super(DetectionNet, self).__init__()
 
